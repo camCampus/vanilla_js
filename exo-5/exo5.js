@@ -16,5 +16,4 @@ let res = resultArray.join().toUpperCase();
 for (i = 0; i < res.length; i++) {
   res = res.replace(",", "");
 }
-
 console.log(res);
