@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+
+        <h1>Exercice 0</h1>
+
+        <script type="text/javascript">
+
+        /* Section 1 */   
+        //Des variables string, string, int, bool, int
+        var name = "Joe";
+        var city = 'London';
+        var age = 32;
+        var isRed = true;
+        var isOld = age > 80;
+        //Un array 
+        var previousJobs = ['lawyer', 'developper', 'Professionnal climber'];
+        
+            //Une fonction info qui prend 2 parametres
+        function info(height, weight) {
+            //condition
+            if (height > 180) {
+                //return le log en console
+                console.log('Vous êtes grand');
+            }
+            if (weight < 0) {
+                console.log('oups, there is a problem');
+            } else if ( weight < 15) {
+                console.log('Are you that slim ?')
+            } else {
+                console.log('Good !')
+            }
+        }
+        //Fonction info executé avec ses parametres
+        info(165, 45);
+
+        var myHeight = 175;
+        var myWeight = 86;
+
+        info(myHeight, myWeight);
+
+        info(myHeight + 15, myWeight - 100);
+
+        function toUpper(variable) {
+            return variable.toUpperCase();
+        }
+
+        var upperName = toUpper(name);
+        console.log(upperName);
+
+        //fonction qui parcour un array et return 3 elements 
+        for (i = 0; i < 3; i = i + 1) {
+            console.log(previousJobs[i]);
+        }
+
+        /* Section 2: */
+
+        // afficher la ville dans laquele Joe vit.     
+        console.log(city);
+        // afficher si Joe est roux ou pas.
+        console.log(isRed);
+        /* Section 3 */
+
+        // console.log(myVariable);
+        </script>
+
+    </body>
+</html>
