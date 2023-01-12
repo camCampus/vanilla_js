@@ -30,3 +30,22 @@ let tmp = 0;
 tmp = parseInt(txt);
 tmp = tmp + num;
 console.log(tmp);
+
+// Exercices complémentaires Conditions :
+console.log("pat2");
+let one = 3;
+let two = 3;
+let three = 3;
+let count = 0;
+function check() {
+  let arr = [one, two, three];
+  arr.forEach((e) => {
+    for (i = 0; i < arr.length; i++) {
+      if (e === arr[i]) {
+        count++;
+        console.log(count);
+      }
+    }
+  });
+}
+check();

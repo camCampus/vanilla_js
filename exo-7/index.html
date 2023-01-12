@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div class="container">
-    <h1>Exercice 7</h1>
-    <pre>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Exercice 7</h1>
+      <select id="filter">
+        <option value="">--Please choose an filter--</option>
+        <option value="name">Name</option>
+        <option value="price">Price</option>
+      </select>
+      <select id="ascdesc">
+        <option value="">--Please choose an filter--</option>
+        <option value="asc">ASC</option>
+        <option value="desc">DESC</option>
+      </select>
+      <pre>
       <ul id="data"></ul>
-    </div>
     </pre>
-    <input type="text" id="type">
-    <button type="button" onclick="showType()">check</button>
+      <div class="inp">
+        <input type="text" id="inputType" />
+
+        <div>
+          <input type="checkbox" id="checkBox" />
+          <label for="checkBox">Afficher les ruptures de stock</label>
+        </div>
+
+        <button type="button" onclick="showType()">check</button>
+      </div>
+    </div>
     <style>
       button {
-        height: 20px;
+        height: 30px;
         width: 100px;
+        font-size: 15px;
+      }
+      .inp {
+        height: fit-content;
+        max-width: 400px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+      }
+      .inp > * {
+        margin: 10px;
       }
     </style>
-  <script src="datas.js"></script>
-  <script src="exo7.js"></script>
-</body>
-
+    <script src="datas.js"></script>
+    <script src="exo7.js"></script>
+  </body>
+</html>
