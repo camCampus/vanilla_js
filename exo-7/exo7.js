@@ -10,9 +10,64 @@ let trad = {
   show: "activité",
 };
 
-function init() {
+// Fonction qui fait une requete api et return un tableau d'objets pour simuler des données.
+function fakeData(array) {
+  let quantity = array.length;
+  let contactArray = [];
+
+  // Appel à l'api et selection des données
+  return fetch("https://fakerapi.it/api/v1/persons?_quantity=" + quantity)
+    .then((response) => response.json())
+    .then((logRes) =>
+      logRes.data.forEach((e) => {
+        let contact = {
+          lastName: e.lastname,
+          firstName: e.firstname,
+          address:
+            `${e.address.street} ` +
+            `${e.address.zipcode} ` +
+            `${e.address.city}`,
+        };
+        //console.log(contact);
+        contactArray.push(contact);
+      })
+    )
+    .then(() => {
+      return contactArray;
+    });
+}
+
+function rebaseJson(array) {
+  let newData = [];
+
+  data.forEach((obj, i) => {
+    obj = {
+      type: obj.type,
+      items: [
+        {
+          name: obj.name,
+          description: obj.description,
+          price: obj.price,
+          quantity: obj.quantity,
+          contact: array[i],
+        },
+      ],
+    };
+    newData.push(obj);
+  });
+  return newData;
+}
+const p = fakeData(data);
+p.then((f) => {
+  return rebaseJson(f);
+}).then((g) => {
+  console.log("g", g);
+  return g;
+});
+
+function init(Array) {
   // Ajoute une key traduction type et en value la bonne traduction stocker dans l'objet trad
-  data.forEach((e) => {
+  Array.forEach((e) => {
     Object.keys(trad).forEach((a) => {
       if (e.type === a) {
         e.traductionType = trad[a];
@@ -21,7 +76,7 @@ function init() {
   });
 
   //Pour chaque obj de data creation d'un li pour affficher l'ojt dans le DOM
-  data.forEach((e) => {
+  Array.forEach((e) => {
     let li = document.createElement("li");
     li.style.display = "block";
     li.innerHTML = JSON.stringify(e);
@@ -101,15 +156,14 @@ function productFilter() {
   filterOption1.addEventListener("change", (event) => {
     key = event.target.value;
     if (operator === undefined) {
+      operator = "asc";
+      newDisplay = sortDisplayObj(key, operator);
+      ul.innerHTML = "";
+      init(newDisplay);
     } else {
       newDisplay = sortDisplayObj(key, operator);
       ul.innerHTML = "";
-      newDisplay.forEach((e) => {
-        let li = document.createElement("li");
-        li.innerHTML = JSON.stringify(e);
-        li.style.display = "block";
-        ul.appendChild(li);
-      });
+      init(newDisplay);
     }
   });
 
@@ -117,12 +171,7 @@ function productFilter() {
     operator = event.target.value;
     newDisplay = sortDisplayObj(key, operator);
     ul.innerHTML = "";
-    newDisplay.forEach((e) => {
-      let li = document.createElement("li");
-      li.innerHTML = JSON.stringify(e);
-      li.style.display = "block";
-      ul.appendChild(li);
-    });
+    init(newDisplay);
   });
 }
 // Bloc de code pour récupérer les data du form et ajouter un obj à la liste
@@ -136,10 +185,19 @@ myForm.addEventListener("submit", (event) => {
 
   data.push(newObj);
   ul.innerHTML = "";
-  init();
+  init(data);
 });
 
-init();
+init(
+  p
+    .then((f) => {
+      return rebaseJson(f);
+    })
+    .then((g) => {
+      console.log("g", g);
+      return g;
+    })
+);
 productFilter();
 
 // fetchForm().then((r) => console.log(r));
