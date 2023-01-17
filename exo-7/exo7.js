@@ -188,13 +188,12 @@ function getForm() {
   });
 }
 
-// fakeData(data, function (tab) {
-//   rebaseJson(tab);
-//   console.log(newFormatData);
-//   init(newFormatData);
-//   let a = getDisplayObject();
-//   console.log(a);
-// });
-init(data);
-productFilter();
+fakeData(data, function (tab) {
+  rebaseJson(tab);
+  console.log(newFormatData);
+  init(newFormatData);
+  let a = getDisplayObject();
+  console.log(a);
+});
+
 // fetchForm().then((r) => console.log(r));
