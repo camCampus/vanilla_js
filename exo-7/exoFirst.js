@@ -2,6 +2,7 @@ console.log("exo-7");
 
 let data = jsonDatas;
 let ul = document.getElementById("data");
+
 let trad = {
   car: "voiture",
   house: "maison",
@@ -9,16 +10,15 @@ let trad = {
   show: "activité",
 };
 
-const newFormatData = [];
-
 // Fonction qui fait une requete api et return un tableau d'objets pour simuler des données.
-function fakeData(array, callback) {
+function fakeData(array) {
   let quantity = array.length;
   let contactArray = [];
+
   // Appel à l'api et selection des données
   return fetch("https://fakerapi.it/api/v1/persons?_quantity=" + quantity)
     .then((response) => response.json())
-    .then((logRes) => {
+    .then((logRes) =>
       logRes.data.forEach((e) => {
         let contact = {
           lastName: e.lastname,
@@ -28,13 +28,18 @@ function fakeData(array, callback) {
             `${e.address.zipcode} ` +
             `${e.address.city}`,
         };
+        //console.log(contact);
         contactArray.push(contact);
-      });
-      callback(contactArray);
+      })
+    )
+    .then(() => {
+      return contactArray;
     });
 }
 
 function rebaseJson(array) {
+  let newData = [];
+
   data.forEach((obj, i) => {
     obj = {
       type: obj.type,
@@ -48,22 +53,21 @@ function rebaseJson(array) {
         },
       ],
     };
-    newFormatData.push(obj);
+    newData.push(obj);
   });
+  return newData;
 }
+// const p = fakeData(data);
+// p.then((f) => {
+//   return rebaseJson(f);
+// }).then((g) => {
+//   console.log("g", g);
+//   return g;
+// });
 
-// async function main() {
-//   let aw = await fakeData(data);
-//   let reb = rebaseJson(aw);
-//   reb.forEach((e) => {
-//     console.log(e);
-//     newFormatData.push(e);
-//   });
-// }
-
-function init(array) {
+function init(Array) {
   // Ajoute une key traduction type et en value la bonne traduction stocker dans l'objet trad
-  array.forEach((e) => {
+  Array.forEach((e) => {
     Object.keys(trad).forEach((a) => {
       if (e.type === a) {
         e.traductionType = trad[a];
@@ -72,9 +76,9 @@ function init(array) {
   });
 
   //Pour chaque obj de data creation d'un li pour affficher l'ojt dans le DOM
-  array.forEach((e) => {
+  Array.forEach((e) => {
     let li = document.createElement("li");
-    li.style.display = "line";
+    li.style.display = "block";
     li.innerHTML = JSON.stringify(e);
     ul.appendChild(li);
   });
@@ -84,9 +88,8 @@ function init(array) {
 function getDisplayObject() {
   let k = Array.from(ul.children);
   let objDisplay = [];
-
   k.forEach((e) => {
-    if (e.getAttribute("style") === "display: line;") {
+    if (e.getAttribute("style") === "display: block;") {
       let txt = JSON.parse(e.textContent);
       objDisplay.push(txt);
     }
@@ -171,30 +174,21 @@ function productFilter() {
     init(newDisplay);
   });
 }
+// Bloc de code pour récupérer les data du form et ajouter un obj à la liste
+let myForm = document.getElementById("myForm");
 
-// function pour récupérer les data du form et ajouter un obj à la liste
-function getForm() {
-  let myForm = document.getElementById("myForm");
+myForm.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-  myForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+  let formData = new FormData(myForm); // Recupère les datas
+  let newObj = Object.fromEntries(formData.entries()); // Stock
 
-    let formData = new FormData(myForm); // Recupère les datas
-    let newObj = Object.fromEntries(formData.entries()); // Stock
+  data.push(newObj);
+  ul.innerHTML = "";
+  init(data);
+});
 
-    data.push(newObj);
-    ul.innerHTML = "";
-    init(newFormatData);
-  });
-}
-
-// fakeData(data, function (tab) {
-//   rebaseJson(tab);
-//   console.log(newFormatData);
-//   init(newFormatData);
-//   let a = getDisplayObject();
-//   console.log(a);
-// });
 init(data);
 productFilter();
+
 // fetchForm().then((r) => console.log(r));
